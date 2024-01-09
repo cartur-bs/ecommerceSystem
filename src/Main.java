@@ -48,6 +48,7 @@ public class Main {
             for (Product e : productList) {
                 System.out.println(e.getProdName() + " - R$" + e.getProdPrice());
                 sumFrete += e.getProdPrice();
+                DBConnection.sendProd(e.getProdName(), e.getProdPrice(),cep );
             }
             System.out.println("Seu frete é: " + Product.frete(sumFrete));
         } catch (IOException | InterruptedException e) {
