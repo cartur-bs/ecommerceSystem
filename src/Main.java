@@ -30,17 +30,21 @@ public class Main {
             System.out.println(responseBody);
         System.out.println("Quantos produtos você deseja comprar?");
         int loopSize = sc.nextInt();
-        List<Product> productList = new ArrayList<Product>();
+        List<Product> productList = new ArrayList<>();
         for(int i=0; i<loopSize; i++){
-            System.out.println("Produto"+ i+1);
+            System.out.println("Produto "+ (i+1));
             String prodName = sc.next();
             double price = DBConnection.getProdPrice(prodName);
-            productList.add(new Product(prodName,price , cep));
-
+            if(price>0){
+                productList.add(new Product(prodName,price , cep));
+            }else System.out.println("Insira um valor válido!");
         }
         //ultimo instanciando que aparece o preço
-            for(Product e: productList){
+           /* for(Product e: productList){
                 System.out.println(e.getProdName() + e.getProdPrice());
+            }*/
+            for (Product e : productList) {
+                System.out.println(e.getProdName() + " - R$" + e.getProdPrice());
             }
       //calculo do frete
         }

@@ -1,10 +1,8 @@
 package entities;
 
-import DB.DBConnection;
-
 public class Product {
     private static String prodName;
-    final double prodPrice;
+    private double prodPrice;
     private int cep;
 
     public static String getProdName() {
@@ -15,17 +13,12 @@ public class Product {
         return prodPrice;
     }
 
+    public Product() {
+    }
+
     public Product(String prodName, double prodPrice, int cep) {
         this.prodName = prodName;
         this.prodPrice = prodPrice;
         this.cep = cep;
-    }
-
-    @Override
-    public String toString() {
-        return "Product{" + getProdName()+
-                "prodPrice=" + prodPrice +
-                ", cep=" + cep +
-                '}';
     }
 }
