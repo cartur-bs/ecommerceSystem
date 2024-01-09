@@ -1,11 +1,11 @@
 package entities;
 
 public class Product {
-    private static String prodName;
+    private String prodName;
     private double prodPrice;
     private int cep;
 
-    public static String getProdName() {
+    public String getProdName() {
         return prodName;
     }
 
@@ -20,5 +20,11 @@ public class Product {
         this.prodName = prodName;
         this.prodPrice = prodPrice;
         this.cep = cep;
+    }
+
+    public static double frete(double sum) {
+        if (sum > 600) {
+            return sum * 0.07;
+        } else return sum * 0.1;
     }
 }

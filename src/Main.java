@@ -20,35 +20,37 @@ public class Main {
         DBConnection.consultProducts();
         System.out.println("Vamos consultar seu CEP");
         int cep = sc.nextInt();
-        try{
+        try {
             HttpClient httpClient = HttpClient.newHttpClient();
             HttpRequest httpRequest = HttpRequest.newBuilder()
                     .uri(URI.create("https://api.postmon.com.br/v1/cep/" + cep)).build();
             HttpResponse<String> response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
-
             String responseBody = response.body();
             System.out.println(responseBody);
-        System.out.println("Quantos produtos você deseja comprar?");
-        int loopSize = sc.nextInt();
-        List<Product> productList = new ArrayList<>();
-        for(int i=0; i<loopSize; i++){
-            System.out.println("Produto "+ (i+1));
-            String prodName = sc.next();
-            double price = DBConnection.getProdPrice(prodName);
-            if(price>0){
-                productList.add(new Product(prodName,price , cep));
-            }else System.out.println("Insira um valor válido!");
-        }
-        //ultimo instanciando que aparece o preço
-           /* for(Product e: productList){
-                System.out.println(e.getProdName() + e.getProdPrice());
-            }*/
+
+            System.out.println("Quantos produtos você deseja comprar?");
+            int loopSize = sc.nextInt();
+            List<Product> productList = new ArrayList<>();
+
+            //gets the price on database and prints the product name along
+            for (int i = 0; i < loopSize; i++) {
+                System.out.println("Produto " + (i + 1));
+                String prodName = sc.next();
+                double price = DBConnection.getProdPrice(prodName);
+                if (price > 0) {
+                    productList.add(new Product(prodName, price, cep));
+                } else{ System.out.println("Reinicie o programa e insira um valor válido!");
+                }
+            }
+
+            //to calculate the delivery fee
+            double sumFrete = 0.0;
             for (Product e : productList) {
                 System.out.println(e.getProdName() + " - R$" + e.getProdPrice());
+                sumFrete += e.getProdPrice();
             }
-      //calculo do frete
-        }
-        catch (IOException | InterruptedException e){
+            System.out.println("Seu frete é: " + Product.frete(sumFrete));
+        } catch (IOException | InterruptedException e) {
             e.getMessage();
         }
         sc.close();
