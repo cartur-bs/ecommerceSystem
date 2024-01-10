@@ -65,4 +65,14 @@ public class DBConnection {
         }
     }
 
+    public static void closeConnection() throws SQLException{
+        if(con != null){
+            try{
+                con.close();
+            }catch (SQLException e){
+                throw new SQLException(e);
+            }
+        }
+    }
+
 }

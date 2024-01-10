@@ -57,6 +57,7 @@ public class Main {
             e.getMessage();
         }
         sc.close();
+        DBConnection.closeConnection();
 
     }
 }
