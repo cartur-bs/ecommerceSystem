@@ -17,14 +17,12 @@ public class Product {
     public int getQuantity() {
         return quantity;
     }
-
     public Product(String prodName, double prodPrice, int quantity, int cep) {
         this.prodName = prodName;
         this.prodPrice = prodPrice;
         this.quantity = quantity;
         this.cep = cep;
     }
-
     public static double frete(double sum) {
         if (sum > 1000) {
             return sum * 0.07;

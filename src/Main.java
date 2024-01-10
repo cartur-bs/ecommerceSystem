@@ -46,11 +46,9 @@ public class Main {
             }
 
             //to calculate the delivery fee and total price
-            //double sumFrete = 0.0;
             double total = 0.0;
             for (Product e : productList) {
                 System.out.println(e.getProdName() + " - R$" + e.getProdPrice() + " X " + e.getQuantity());
-               // sumFrete += e.getProdPrice();
                 total = total + e.getProdPrice() * e.getQuantity();
                 DBConnection.sendProd(DBConnection.getProdCode(e.getProdName()), e.getProdPrice(), e.getQuantity(),cep );
             }
@@ -60,6 +58,5 @@ public class Main {
         }
         sc.close();
         DBConnection.closeConnection();
-
     }
 }

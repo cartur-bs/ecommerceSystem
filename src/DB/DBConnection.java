@@ -1,11 +1,9 @@
 package DB;
 import java.sql.*;
 public class DBConnection {
-
     private static final String url = "jdbc:mysql://localhost:3306/Products";
     private static final  String uname = "root";
     private static final String password="root1234";
-
     private static Connection con = null;
     public static Connection getConnection() throws SQLException {
         if(con==null){
@@ -36,7 +34,6 @@ public class DBConnection {
         ResultSet rst;
         try{
             rst = st.executeQuery(getProdPriceSet);
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -44,14 +41,12 @@ public class DBConnection {
             return rst.getInt("PRICE");
         }else return 0;
     }
-
     public static int getProdCode(String prodName) throws SQLException {
         String getProdPriceSet = "SELECT CODE from productsList WHERE PRODUCT= "+ "'" + prodName+"';";
         Statement st = con.createStatement();
         ResultSet rst;
         try{
             rst = st.executeQuery(getProdPriceSet);
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -59,7 +54,6 @@ public class DBConnection {
             return rst.getInt("CODE");
         }else return 0;
     }
-
     //sends the products data to database
     public static void sendProd(int prodCode, double prodPrice, int quantity, int zipCode){
         String setCommand = "INSERT INTO productsToShip VALUES (?,?,?,?)";
@@ -74,7 +68,6 @@ public class DBConnection {
             throw new RuntimeException(e);
         }
     }
-
     public static void closeConnection() throws SQLException{
         if(con != null){
             try{
