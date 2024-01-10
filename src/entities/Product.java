@@ -26,7 +26,7 @@ public class Product {
     }
 
     public static double frete(double sum) {
-        if (sum > 600) {
+        if (sum > 1000) {
             return sum * 0.07;
         } else return sum * 0.1;
     }

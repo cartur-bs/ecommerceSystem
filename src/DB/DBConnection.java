@@ -1,7 +1,4 @@
 package DB;
-
-import entities.Product;
-
 import java.sql.*;
 public class DBConnection {
 
@@ -19,24 +16,22 @@ public class DBConnection {
             }}
         return con;
     }
-
     public static void consultProducts() throws SQLException{
-        String product = "SELECT productName, productPrice FROM ProductsList;" ;
+        String product = "SELECT PRODUCT, PRICE FROM productsList;" ;
         Statement st = con.createStatement();
         ResultSet rst;
 
         try{
             rst = st.executeQuery(product);
             while(rst.next()){
-                System.out.println(rst.getString("productName")  +
-                        " | Preço: " + rst.getDouble("productPrice"));
+                System.out.println(rst.getString("PRODUCT")  +
+                        " | Preço: " + rst.getDouble("PRICE"));
             }
 } catch (SQLException e) {
             throw new RuntimeException(e);
         }}
-
     public static double getProdPrice(String prodName) throws SQLException {
-        String getProdPriceSet = "SELECT productPrice from ProductsList WHERE productName= "+ "'" + prodName+"';";
+        String getProdPriceSet = "SELECT PRICE from productsList WHERE PRODUCT= "+ "'" + prodName+"';";
         Statement st = con.createStatement();
         ResultSet rst;
         try{
@@ -46,16 +41,31 @@ public class DBConnection {
             throw new RuntimeException(e);
         }
         if (rst.next()){
-            return rst.getInt("productPrice");
+            return rst.getInt("PRICE");
+        }else return 0;
+    }
+
+    public static int getProdCode(String prodName) throws SQLException {
+        String getProdPriceSet = "SELECT CODE from productsList WHERE PRODUCT= "+ "'" + prodName+"';";
+        Statement st = con.createStatement();
+        ResultSet rst;
+        try{
+            rst = st.executeQuery(getProdPriceSet);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        if (rst.next()){
+            return rst.getInt("CODE");
         }else return 0;
     }
 
     //sends the products data to database
-    public static void sendProd(String prodName, double prodPrice, int quantity, int zipCode){
+    public static void sendProd(int prodCode, double prodPrice, int quantity, int zipCode){
         String setCommand = "INSERT INTO productsToShip VALUES (?,?,?,?)";
         try{
             PreparedStatement pst = con.prepareStatement(setCommand);
-            pst.setString(1, prodName);
+            pst.setInt(1, prodCode);
             pst.setDouble(2,prodPrice);
             pst.setInt(3,quantity);
             pst.setInt(4,zipCode);

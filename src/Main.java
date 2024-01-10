@@ -45,14 +45,16 @@ public class Main {
                 }
             }
 
-            //to calculate the delivery fee
-            double sumFrete = 0.0;
+            //to calculate the delivery fee and total price
+            //double sumFrete = 0.0;
+            double total = 0.0;
             for (Product e : productList) {
                 System.out.println(e.getProdName() + " - R$" + e.getProdPrice() + " X " + e.getQuantity());
-                sumFrete += e.getProdPrice();
-                DBConnection.sendProd(e.getProdName(), e.getProdPrice(), e.getQuantity(),cep );
+               // sumFrete += e.getProdPrice();
+                total = total + e.getProdPrice() * e.getQuantity();
+                DBConnection.sendProd(DBConnection.getProdCode(e.getProdName()), e.getProdPrice(), e.getQuantity(),cep );
             }
-            System.out.println("Seu total é: R$" + sumFrete + " + frete= R$"+Product.frete(sumFrete));
+            System.out.printf("Seu total é: R$%.2f%n + frete = R$%.2f%n ",total, Product.frete(total) );
         } catch (IOException | InterruptedException e) {
             e.getMessage();
         }
