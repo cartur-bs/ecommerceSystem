@@ -15,30 +15,32 @@ public class Main {
     public static void main(String[] args) throws SQLException {
 
         Scanner sc = new Scanner(System.in);
-        System.out.println("Produtos em estoque:");
         DBConnection.getConnection();
         DBConnection.consultProducts();
+        System.out.println("Produtos em estoque:");
         System.out.println("Vamos consultar seu CEP");
         int cep = sc.nextInt();
         try {
             HttpClient httpClient = HttpClient.newHttpClient();
-            HttpRequest httpRequest = HttpRequest.newBuilder()
-                    .uri(URI.create("https://api.postmon.com.br/v1/cep/" + cep)).build();
+            HttpRequest httpRequest = HttpRequest.newBuilder().uri(URI.create("https://api.postmon.com.br/v1/cep/" + cep)).build();
             HttpResponse<String> response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
             String responseBody = response.body();
             System.out.println(responseBody);
 
-            System.out.println("Quantos produtos você deseja comprar?");
+            System.out.println("Quantos produtos diferentes você deseja comprar?");
             int loopSize = sc.nextInt();
             List<Product> productList = new ArrayList<>();
 
-            //gets the price on database and prints the product name along
+            //gets the price from database, the product and quantity and prints the information
             for (int i = 0; i < loopSize; i++) {
-                System.out.println("Produto " + (i + 1));
+                System.out.println("Produto " + (i+1) );
                 String prodName = sc.next();
+                System.out.println("Quantidade: ");
+                sc.nextLine();
+                int quantity = sc.nextInt();
                 double price = DBConnection.getProdPrice(prodName);
                 if (price > 0) {
-                    productList.add(new Product(prodName, price, cep));
+                    productList.add(new Product(prodName, price,quantity,cep));
                 } else{ System.out.println("Reinicie o programa e insira um valor válido!");
                 }
             }
@@ -46,11 +48,11 @@ public class Main {
             //to calculate the delivery fee
             double sumFrete = 0.0;
             for (Product e : productList) {
-                System.out.println(e.getProdName() + " - R$" + e.getProdPrice());
+                System.out.println(e.getProdName() + " - R$" + e.getProdPrice() + " X " + e.getQuantity());
                 sumFrete += e.getProdPrice();
-                DBConnection.sendProd(e.getProdName(), e.getProdPrice(),cep );
+                DBConnection.sendProd(e.getProdName(), e.getProdPrice(), e.getQuantity(),cep );
             }
-            System.out.println("Seu frete é: " + Product.frete(sumFrete));
+            System.out.println("Seu total é: R$" + sumFrete + " + frete= R$"+Product.frete(sumFrete));
         } catch (IOException | InterruptedException e) {
             e.getMessage();
         }

@@ -4,6 +4,7 @@ public class Product {
     private String prodName;
     private double prodPrice;
     private int cep;
+    private int quantity;
 
     public String getProdName() {
         return prodName;
@@ -13,12 +14,14 @@ public class Product {
         return prodPrice;
     }
 
-    public Product() {
+    public int getQuantity() {
+        return quantity;
     }
 
-    public Product(String prodName, double prodPrice, int cep) {
+    public Product(String prodName, double prodPrice, int quantity, int cep) {
         this.prodName = prodName;
         this.prodPrice = prodPrice;
+        this.quantity = quantity;
         this.cep = cep;
     }
 

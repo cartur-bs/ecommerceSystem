@@ -50,13 +50,15 @@ public class DBConnection {
         }else return 0;
     }
 
-    public static void sendProd(String prodName, double prodPrice, int zipCode ){
-        String setComand = "INSERT INTO productsToShip VALUES (?,?,?)";
+    //sends the products data to database
+    public static void sendProd(String prodName, double prodPrice, int quantity, int zipCode){
+        String setCommand = "INSERT INTO productsToShip VALUES (?,?,?,?)";
         try{
-            PreparedStatement pst = con.prepareStatement(setComand);
+            PreparedStatement pst = con.prepareStatement(setCommand);
             pst.setString(1, prodName);
             pst.setDouble(2,prodPrice);
-            pst.setInt(3,zipCode);
+            pst.setInt(3,quantity);
+            pst.setInt(4,zipCode);
             pst.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
